@@ -28,3 +28,64 @@
 #
 #Delete these comments before commit!
 #Good luck.
+
+class Student:
+    
+    def __init__(self, name, surname):
+        self.name = name
+        self.surname = surname
+        self.grades = { "Math" : 0,
+                       "Biology" : 0}
+
+    def print_info(self):
+        print("Student: " + self.name + " " + self.surname)
+        print ("Final grades ", self.grades)
+    
+
+    def add_grade(self, subject, grade):
+        self.grades[subject] = grade
+    
+
+    def attendance(self):
+        pass
+
+class Class:
+    def __init__(self):
+        self.nr_of_people = 0
+        self.students = []
+    
+    def add_student(self, Student):
+        self.students.append(Student)
+        self.nr_of_people += 1
+
+    def class_average(self, subject):
+        for student in self.students:
+            grades += student.grades[subject]
+        return grades/ self.nr_of_people
+
+
+
+        
+
+
+if __name__ == "__main__":
+
+    print("The class:")
+    student1 = Student("Ala", "Makota")
+    student2 = Student("Katarzyna", "Niemakota")
+
+    student1.print_info()
+    student2.print_info()
+
+    student1.add_grade("Math", 5)
+
+    student1.print_info()
+
+    myclass = Class()
+    myclass.add_student(student1)
+    myclass.add_student(student2)
+    #print(myclass.class_average("Math"))
+
+
+
+
