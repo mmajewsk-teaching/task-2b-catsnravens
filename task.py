@@ -1,125 +1,8 @@
-
-# Class diary
-#
-# Create program for handling lesson scores.
-# Use python to handle student (highscool) class scores, and attendance.
-# Make it possible to:
-# - Get students total average score (average across classes)
-# - get students average score in class
-# - hold students name and surname
-# - Count total attendance of student
-#
-# Please, use your imagination and create more functionalities.
-# Your project should be able to handle entire school(s?).
-# If you have enough courage and time, try storing (reading/writing)
-# data in text files (YAML, JSON).
-# If you have even more courage, try implementing user interface (might be text-like).
-#
-#Try to expand your implementation as best as you can. 
-#Think of as many features as you can, and try implementing them.
-#Make intelligent use of pythons syntactic sugar (overloading, iterators, generators, etc)
-#Most of all: CREATE GOOD, RELIABLE, READABLE CODE.
-#The goal of this task is for you to SHOW YOUR BEST python programming skills.
-#Impress everyone with your skills, show off with your code.
-#
-#Your program must be runnable with command "python task.py".
-#Show some usecases of your library in the code (print some things)
-#
-#When you are done upload this code to your github repository. 
-#
-#Delete these comments before commit!
-#Good luck.
-
 import json
 from pathlib import Path
 from statistics import mean
 
 #data structures
-
-#dict_students = {
-#    "student1": {"name": "Ala", "surname": "Makota",
-#        "grades": {"Math": [5, 2], "Biology": [4, 1]},
-#        "attendance": [0, 1, 1, 1, 0]},
-#
-#    "student2": {"name": "Wiktoria", "surname": "Niemakota",
-#        "grades": {"Math": [4, 5], "Biology": [5, 5]},
-#        "attendance": [1, 1, 1, 1, 0]},
-#
-#    "student3": {"name": "Katarzyna", "surname": "Kot",
-#        "grades": {"Math": [4, 4], "Biology": [3, 5], "Physics": [4, 3]},
-#        "attendance": [1, 1, 1, 1, 1]},
-#
-#    "student4": {"name": "Jan", "surname": "Kowalski",
-#        "grades": {"Math": [2, 3], "Biology": [4, 2], "Physics": [3, 4]},
-#        "attendance": [1, 0, 1, 1, 1]},
-#
-#    "student5": {"name": "Anna", "surname": "Kowalska",
-#        "grades": {"Math": [5, 5], "Biology": [5, 4], "Physics": [4, 5]},
-#        "attendance": [1, 1, 1, 0, 1]},
-#
-#    "student6": {"name": "Adam", "surname": "Nowak",
-#        "grades": {"Math": [3, 4], "Physics": [3, 2]},
-#        "attendance": [1, 1, 0, 1, 1]},
-#
-#    "student7": {"name": "Ewa", "surname": "Cicha",
-#        "grades": {"Math": [4, 5], "Biology": [5, 5], "Physics": [5, 4]},
-#        "attendance": [1, 1, 1, 1, 1]},
-#
-#    "student8": {"name": "Piotr", "surname": "Cichy",
-#        "grades": {"Math": [2, 2], "Biology": [3, 2], "Physics": [3, 3]},
-#        "attendance": [0, 1, 1, 0, 1]},
-#
-#    "student9": {"name": "Dominik", "surname": "Popel",
-#        "grades": {"Math": [5, 4], "Biology": [4, 4], "Physics": [4, 5]},
-#        "attendance": [1, 1, 0, 1, 1]},
-#
-#    "student10": {"name": "Tomasz", "surname": "Karp",
-#        "grades": {"Math": [3, 5], "Biology": [5, 3], "Physics": [3, 4]},
-#        "attendance": [1, 1, 1, 1, 0]},
-#
-#    "student11": {"name": "Alicja", "surname": "Jagla",
-#        "grades": {"Computer Science": [5, 4], "Python": [4, 5]},
-#        "attendance": [1, 0, 1, 1, 1]},
-#
-#    "student12": {"name": "Krzysztof", "surname": "Kryk",
-#        "grades": {"Computer Science": [5, 5], "Python": [4, 4], "Chemistry": [5, 5]},
-#        "attendance": [0, 0, 0, 0, 0]},
-#
-#    "student13": {"name": "Piotr", "surname": "Zimny",
-#        "grades": {"Computer Science": [4, 3], "Python": [3, 4], "Chemistry": [4, 3]},
-#        "attendance": [1, 1, 1, 1, 1]},
-#
-#    "student14": {"name": "Dawid", "surname": "Prezydent",
-#        "grades": {"Computer Science": [4, 5], "Chemistry": [5, 4]},
-#        "attendance": [1, 1, 1, 0, 1]},
-#
-#    "student15": {"name": "Marta", "surname": "Krawa",
-#        "grades": {"Computer Science": [3, 2], "Chemistry": [3, 2]},
-#        "attendance": [1, 1, 0, 1, 0]},
-#
-#    "student16": {"name": "Zofia", "surname": "Data",
-#        "grades": {"Computer Science": [5, 4], "Chemistry": [4, 5]},
-#        "attendance": [1, 1, 1, 1, 1]},
-#
-#    "student17": {"name": "Olga", "surname": "Borek",
-#        "grades": {"Computer Science": [4, 4], "Chemistry": [5, 5]},
-#        "attendance": [1, 0, 1, 1, 1]},
-#
-#    "student18": {"name": "Jakub", "surname": "Bagnet",
-#        "grades": {"Computer Science": [3, 5], "Python": [4, 4], "Chemistry": [4, 3]},
-#        "attendance": [1, 1, 1, 1, 0]},
-#
-#    "student19": {"name": "Łukasz", "surname": "Kowalczyk",
-#        "grades": {"Computer Science": [5, 5], "Python": [5, 4], "Chemistry": [5, 4]},
-#        "attendance": [1, 1, 1, 1, 1]},
-#
-#    "student20": {"name": "Bartosz", "surname": "Babel",
-#        "grades": {"Computer Science": [2, 3], "Python": [3, 2], "Chemistry": [3, 3]},
-#        "attendance": [1, 0, 0, 0, 0]}
-#}
-
-
-
 dict_schools = {
     "Highschool 1": [f"student{i}" for i in range(1, 11)],   # 1 - 10
     "Highschool 2": [f"student{i}" for i in range(11, 21)]   # 11 - 20
@@ -208,7 +91,7 @@ def school_average(school):
         return None
     return mean(grades)
 
-#other functions (1-4)  <11
+#other functions (3)  sum = 9 functions total is in 7-10 range
 
 def attendance(student):
     return sum(student["attendance"])/ len(student["attendance"])
